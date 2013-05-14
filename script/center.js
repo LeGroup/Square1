@@ -21,10 +21,6 @@ function GetNodes(max) {
 			AddNode(nodes[node]);
 		}
 		
-		$('#canvas').masonry({ 
-			itemSelector: '.dom-node',
-			columnWidth: 240
-		});
 	});
 }
 

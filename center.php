@@ -17,7 +17,6 @@
 		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js" type="text/javascript"></script>
 		<script src="script/jquery.touch-punch.min.js" type="text/javascript"></script>
 		<script src="script/raphael-min.js" type="text/javascript"></script>
-		<script src="script/masonry.min.js" type="text/javascript"></script>
 		<script src="script/jquery.mousewheel.js" type="text/javascript"></script>
 		<script src="script/svg-navigation.js" type="text/javascript"></script>
 		<script src="script/center.js" type="text/javascript"></script>
