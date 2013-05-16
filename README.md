@@ -1,6 +1,9 @@
 Square1
 =======
 
+Database structure:
+Import structure from the SQL file in database directory.
+
 Database connection:
 Create db.php file to the project directory. Contents of the file:
 
