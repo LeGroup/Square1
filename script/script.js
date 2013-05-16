@@ -35,7 +35,7 @@
 	}
 	
 	function message(e) {
-		//alert(e);
+		alert(e);
 	}
 	
 	function KeyDown() {
