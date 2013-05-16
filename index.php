@@ -11,7 +11,7 @@
 	
 	<?php if(!isset($_GET['room'])) : ?>
 		<h1>Square1</h1>
-		<h2>Room name</h2>
+		<p>Enter the name of the room you want to join. Not case sensitive.</p>
 		<form action="index.php" method="get">
 		<p><input type="text" name="room" maxlength="30"></p>
 		<p><input type="submit" value="Join room"></p>

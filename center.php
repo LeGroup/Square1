@@ -10,8 +10,12 @@
 			$id = strtolower($_GET['room']);
 			if(strlen($id) > 30) { die('<p class="error">The name of the room must be less than 30 characters</p>'); }
 			if(empty($id)) { die('<p class="error">Error: no room name given</p>'); }
+			
+			$get = $_GET;
+			$get['m'] = "Write";
+			$url = http_build_query($get);
 		?>
-		<div id="canvas"></div>
+		<div id="canvas"><div id="no-found">Empty room<br>Why don't try to <a href="?<?php echo $url; ?>">write a note</a>?</div></div>
 		<script type="text/javascript">var Room="<?php echo $_GET['room']; ?>";</script>
 		<script src="script/jquery-1.9.1.js" type="text/javascript"></script>
 		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js" type="text/javascript"></script>

@@ -12,7 +12,7 @@
 		?>
 		<div id="send"></div>
 		<div id="save-note"></div>
-		<textarea id="text"></textarea>
+		<textarea id="text" placeholder="Start writing here"></textarea>
 		<script type="text/javascript">var Room="<?php echo $_GET['room']; ?>";</script>
 		<script src="script/jquery-1.9.1.js" type="text/javascript"></script>
 		<script src="script/script.js" type="text/javascript"></script>

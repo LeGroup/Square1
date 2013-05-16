@@ -33,19 +33,27 @@ svg { font-family: 'Noto Sans', sans-serif;}
 	list-style-type: none;
 	padding-bottom: 100px;
 	min-height: 100px;
-	.list-node {
-		margin: 10px;
-		border: 1px solid #009933;
-		padding: 10px;
-		white-space: pre-wrap;
-		box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
-		background-color: #fff;
-	}
 	.sortable-placeholder {
 		border: 1px dashed #dedede;
 		height: 20px;
 		margin: 10px;
 	}
+}
+.list-node {
+	margin: 10px;
+	border: 1px solid #009933;
+	padding: 10px;
+	white-space: pre-wrap;
+	box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+	background-color: #fff;
+	display: none;
+}
+
+#no-found {
+	text-align: center;
+	margin-top: 200px;
+	font-size: 1.5em;
+	color: #666;
 }
 
 #save-note {

@@ -12,19 +12,30 @@
 	function SendSelectedText() {
 		var ta = document.getElementById('text');
 		var string = ta.value.substring(ta.selectionStart, ta.selectionEnd);
-		console.log(string);
+		
 		if(string.length > 0)
 			Send(string);
+		else
+			message('Please highlight the text you want to send');
 	}
 	
 	function Send(text) {
 		$.post('send.php', { text:text, room: Room }, function(response) {
-				console.log(response);
-		/*	var div = $('<div>').html(text);
+				console.log('PHP: ' + response);
+				if(response == '1') 	
+					message('Sending text succeeded!');
+				else
+					message('Sending text failed.');
+			var div = $('<div>').html(text);
+			div.addClass('list-node');
 			$('body').append(div);
-			div.css({ opacity: 0.0, position: 'absolute', margin: 'auto', marginTop: '50%', width: '50%', left: '25%', 'backgroundColor': '#fff', 'padding': '10px'});
-			div.animate({ opacity: 1.0 }, 800, function() { div.animate({ top: '-100%' }, 1000); }); */
+			div.css({ position: 'absolute', margin: 'auto', marginTop: '50%', width: '50%', left: '25%', 'backgroundColor': '#fff', 'padding': '10px'});
+			div.animate({ top: '-100%' }, 1000); 
 		});
+	}
+	
+	function message(e) {
+		//alert(e);
 	}
 	
 	function KeyDown() {

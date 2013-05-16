@@ -1,6 +1,7 @@
 var maxID = 0;
 var Paper;
 var nodeType = 'List';
+var startingNodesLoaded = false;
 
 $(function () {
 	
@@ -14,13 +15,14 @@ $(function () {
 
 function GetNodes(max) {
 	$.post('fetch.php', { max: max, room: Room }, function(response) {
+		console.log('PHP: ' + response);
 		var obj = JSON.parse(response);
 		nodes = obj.nodes;
 		maxID = obj.max;
 		for(var node in nodes) {
 			AddNode(nodes[node]);
 		}
-		
+		startingNodesLoaded = true;
 	});
 }
 
@@ -85,11 +87,16 @@ function List_AddNode(node) {
 	});
 	//li.draggable();
 	smallest.append(li);
+	
+	if(startingNodesLoaded)
+		li.show(500);
+	else
+		li.show();
 }
 
 function InitLists() {
 	$('body').css({ backgroundColor: '#fafafa' });
-	
+	$('#no-found').remove();
 	var columns = $(window).width() / 300;
 	columns = Math.floor(columns);
 	
