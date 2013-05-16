@@ -11,4 +11,4 @@ Create db.php file to the project directory. Contents of the file:
 	$pass = 'mysql password';
 	$db = new PDO('mysql:host='.$host.';dbname=square1', $user, $pass); 
 ?>
-´´´
+```
