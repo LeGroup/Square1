@@ -85,10 +85,5 @@
 		?>
 		<div id="canvas"><div id="no-found">Empty room<br>Why don't try to <a href="?<?php echo $url; ?>">write a note</a>?</div></div>
 		<script type="text/javascript">var Room="<?php echo $_GET['room']; ?>";</script>
-<div data-name="left" class="area" id="left"></div>
-<div data-name="right" class="area" id="right"></div>
-<div id="dummy"></div>
-<div data-name="top" class="area" id="top"></div>
-<div data-name="bottom" class="area" id="bottom"></div>
 	</body>
 </html>

@@ -97,13 +97,11 @@ function addNode(node)
 	});
 	*/
 	var a=0;
-	/*
 	$header.on("click", function(e)
 	{
 		a=a+90 % 360;
 		$(this).parent().rotate({animateTo: a, duration: 250});
 	});
-	*/
 	var $e=$("<span class='node'>" + node.text + "</span>");
 	$e.append($header);
 	$e.click(function()
@@ -116,34 +114,7 @@ function addNode(node)
 		// Assign z-index of maximum + 1 to make this the topmost node.
 		$(this).css("zIndex", maxw+1);
 	});
-	$e.draggable({cursor: "move", stack: ".node", stop: function(e)
-	{
-		var $draggable=$(this);
-		$(".area").each(function()
-		{
-			if(insideBbox(getBbox(this), e.pageX, e.pageY))
-			{
-				var name=$(this).data("name");
-				switch(name)
-				{
-					case "bottom":
-						$draggable.rotate({animateTo: 0, duration: 250});
-						break;
-					case "left":
-						$draggable.rotate({animateTo: 90, duration: 250});
-						break;
-					case "top":
-						$draggable.rotate({animateTo: 180, duration: 250});
-						break;
-					case "right":
-						$draggable.rotate({animateTo: 270, duration: 250});
-						break;
-				}
-				return;
-			}
-		});
-	}});
-	/*
+	$e.draggable({cursor: "move", stack: ".node"});
 	$e.mouseover(function()
 	{
 		$header.stop().fadeIn();
@@ -151,7 +122,6 @@ function addNode(node)
 	{
 		$header.stop().fadeOut();
 	});
-	*/
 	$(document.body).append($e);
 }
 
