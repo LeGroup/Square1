@@ -70,7 +70,7 @@ function addNode(node)
 	var starta=0;
 	var $node_to_rotate=null;
 	var lastr=0;
-	/*
+
 	$header.on("mousedown", function(e)
 	{
 		header_rotating=true;
@@ -95,13 +95,7 @@ function addNode(node)
 			$node_to_rotate.data("angle", lastr);
 		}
 	});
-	*/
 	var a=0;
-	$header.on("click", function(e)
-	{
-		a=a+90 % 360;
-		$(this).parent().rotate({animateTo: a, duration: 250});
-	});
 	var $e=$("<span class='node'>" + node.text + "</span>");
 	$e.append($header);
 	$e.click(function()
