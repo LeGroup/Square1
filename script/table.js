@@ -27,12 +27,25 @@ function getNodes(max) {
 	});
 }
 
+function getOffsetWithoutRotation($elem) {
+	// jQuery has a bug where .offset() with css rotated element
+	// returns garbage. Therefore we need to disable the rotation
+	// and then get the offset and put the rotation back.
+	var t=$elem.css("transform");
+	$elem.css("transform", "");
+	var off=$elem.offset();
+	$elem.css("transform", t);
+	return off;
+}
+
 function angle($elem, x, y)
 {
-	var eoff=$elem.offset();
-	var dx=x - (eoff.left + ($elem.width()/2));
-	var dy=y - (eoff.top + ($elem.height()/2));
-  return (Math.atan2(dy, dx) * 180 / Math.PI);
+	var off=getOffsetWithoutRotation($elem);
+	var x_=(off.left + ($elem.outerWidth(false)/2));
+	var y_=(off.top + ($elem.outerHeight(false)/2));
+	var dx=x - x_;
+	var dy=y - y_;
+	return (Math.atan2(dy, dx) * 180 / Math.PI);
 }
 
 function rotate($elem, deg)
@@ -69,31 +82,31 @@ function addNode(node)
 	var header_rotating=false;
 	var starta=0;
 	var $node_to_rotate=null;
-	var lastr=0;
+	var last_angle=0;
+	var last_rotation=0;
+	var correction=null;
 
 	$header.on("mousedown", function(e)
 	{
 		header_rotating=true;
 		$node_to_rotate=$(this).parent();
-		starta=$node_to_rotate.data("angle") ? $node_to_rotate.data("angle") : angle($node_to_rotate, e.pageX, e.pageY);
-		console.log(starta);
+
+		// Correction is needed because the starting angle of the rotation is wrong, caused
+		// by the fact that the rotation button is in the corner of the rotated node.
+		if(correction===null) correction=Math.ceil(angle($node_to_rotate, e.pageX, e.pageY));
 		return false;
 	});
 	$(document).on("mousemove", function(e)
 	{
 		if(header_rotating)
 		{
-			lastr=starta-angle($node_to_rotate, e.pageX, e.pageY);
-			lastr;
-			rotate($node_to_rotate, starta-lastr);
+			last_rotation=last_angle-angle($node_to_rotate, e.pageX, e.pageY) + correction;
+			rotate($node_to_rotate, last_angle-last_rotation);
+			last_angle=last_angle-last_rotation;
 		}
 	}).on("mouseup", function(e)
 	{
 		header_rotating=false;
-		if($node_to_rotate)
-		{
-			$node_to_rotate.data("angle", lastr);
-		}
 	});
 	var a=0;
 	var $e=$("<span class='node'>" + node.text + "</span>");
@@ -122,6 +135,6 @@ function addNode(node)
 $(function() {
 	$(".node").remove();
 	getNodes(maxID);
-	setInterval(function() { GetNodes(maxID); }, 5000 );
+	setInterval(function() { getNodes(maxID); }, 5000 );
 });
 })();
