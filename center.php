@@ -8,6 +8,7 @@
 		<link rel="stylesheet" type="text/css" href="style.css">
 
 		<script src="script/jquery.js"></script>
+		<script src="script/jquery.draggableTouch.js"></script>
 		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 		<script src="script/jQueryRotateCompressed.js"></script>
 		<script src="script/table.js"></script>
@@ -65,11 +66,18 @@
 				content: "↺";
 			}
 			.rotate {
-				display: none;
+				/*display: none;*/
 				position: absolute;
 				/*top: -20px;*/
 				top: 0;
 				right: 4px;
+			}
+			.close {
+				/*display: none;*/
+				position: absolute;
+				/*top: -20px;*/
+				top: 0;
+				left: 4px;
 			}
 		</style>
 	</head>

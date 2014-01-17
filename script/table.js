@@ -79,6 +79,7 @@ function addNode(node)
 {
 	$('#no-found').remove();
 	var $header=$("<header class='rotate'>↻</header>");
+	var $close=$("<header class='close'>✖</header>");
 	var header_rotating=false;
 	var starta=0;
 	var $node_to_rotate=null;
@@ -86,32 +87,40 @@ function addNode(node)
 	var last_rotation=0;
 	var correction=null;
 
-	$header.on("mousedown", function(e)
+	$header.on("mousedown touchstart", function(e)
 	{
 		header_rotating=true;
 		$node_to_rotate=$(this).parent();
 
+		var pagex=e.pageX ? e.pageX : e.originalEvent.touches[0].pageX
+		var pagey=e.pageY ? e.pageY : e.originalEvent.touches[0].pageY
+
 		// Correction is needed because the starting angle of the rotation is wrong, caused
 		// by the fact that the rotation button is in the corner of the rotated node.
-		if(correction===null) correction=Math.ceil(angle($node_to_rotate, e.pageX, e.pageY));
+		if(correction===null) correction=Math.ceil(angle($node_to_rotate, pagex, pagey));
 		return false;
 	});
-	$(document).on("mousemove", function(e)
+	$(document).on("mousemove touchmove", function(e)
 	{
+		var pagex=e.pageX ? e.pageX : e.originalEvent.touches[0].pageX
+		var pagey=e.pageY ? e.pageY : e.originalEvent.touches[0].pageY
 		if(header_rotating)
 		{
-			last_rotation=last_angle-angle($node_to_rotate, e.pageX, e.pageY) + correction;
+			$e.draggableTouch("disable");
+			last_rotation=last_angle-angle($node_to_rotate, pagex, pagey) + correction;
 			rotate($node_to_rotate, last_angle-last_rotation);
 			last_angle=last_angle-last_rotation;
 		}
-	}).on("mouseup", function(e)
+	}).on("mouseup touchend", function(e)
 	{
 		header_rotating=false;
+		$e.draggableTouch({cursor: "move", stack: ".node"});
 	});
 	var a=0;
 	var $e=$("<span class='node'>" + node.text + "</span>");
+	$e.append($close);
 	$e.append($header);
-	$e.click(function()
+	$e.on("click touchstart", function()
 	{
 		// Get the maximum z-index of nodes
 		var maxw=Math.max.apply(
@@ -121,13 +130,21 @@ function addNode(node)
 		// Assign z-index of maximum + 1 to make this the topmost node.
 		$(this).css("zIndex", maxw+1);
 	});
-	$e.draggable({cursor: "move", stack: ".node"});
+	$e.draggableTouch({cursor: "move", stack: ".node"});
+/*
 	$e.mouseover(function()
 	{
 		$header.stop().fadeIn();
+		$close.stop().fadeIn();
 	}).mouseleave(function()
 	{
 		$header.stop().fadeOut();
+		$close.stop().fadeOut();
+	});
+*/
+	$close.click(function()
+	{
+		$close.parent().css("visibility", "hidden");
 	});
 	$(document.body).append($e);
 }
@@ -136,5 +153,9 @@ $(function() {
 	$(".node").remove();
 	getNodes(maxID);
 	setInterval(function() { getNodes(maxID); }, 5000 );
+	document.onclick=function(e) { e.preventDefault(); return false; }
+	document.ontouchstart=function(e) { e.preventDefault(); return false; }
+	document.ontouchmove=function(e) { e.preventDefault(); return false; }
+	//document.ontouchend=function(e) { e.preventDefault(); return false; }
 });
 })();
