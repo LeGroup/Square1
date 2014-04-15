@@ -2,6 +2,8 @@
 <html lang="en">
 	<head>	
 		<meta charset="UTF-8"></meta>
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+		<meta name="viewport" content="width=device-width" />
 
 		<link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
 		<link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
@@ -12,6 +14,8 @@
 		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 		<script src="script/jQueryRotateCompressed.js"></script>
 		<script src="script/table.js"></script>
+		<script src="script/panzoom.js"></script>
+		<script src="script/pointertouch.js"></script>
 
 		<style>
 			html,body {
@@ -65,6 +69,7 @@
 				max-width: 200px;
 				content: "↺";
 				z-index: 11;
+				-webkit-animation-fill-mode: forwards;
 			}
 			.rotate {
 				font-size: 16pt;

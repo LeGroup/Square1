@@ -26,9 +26,18 @@ function getOffsetWithoutRotation($elem) {
 	return off;
 }
 
+function getOffsetFromMatrix($elem) {
+	var matrix=$elem.css('transform').split(",");
+	var scalex = matrix[0].slice(7);
+	var scaley = matrix[3].slice(1);
+	var x = matrix[4].slice(1);
+	var y = matrix[5].slice(1, -1);
+	return {left: parseInt(x, 10), top: parseInt(y, 10), scalex: scalex, scaley: scaley};
+}
+
 function angle($elem, x, y)
 {
-	var off=getOffsetWithoutRotation($elem);
+	var off = getOffsetFromMatrix($elem);
 	var x_=(off.left + ($elem.outerWidth(false)/2));
 	var y_=(off.top + ($elem.outerHeight(false)/2));
 	var dx=x - x_;
@@ -38,13 +47,8 @@ function angle($elem, x, y)
 
 function rotate($elem, deg)
 {
-	$elem.css({
-		'-moz-transform':'rotate('+deg+'deg)',
-		'-webkit-transform':'rotate('+deg+'deg)',
-		'-o-transform':'rotate('+deg+'deg)',
-		'-ms-transform':'rotate('+deg+'deg)',
-		'transform': 'rotate('+deg+'deg)'
-	});
+	var off = getOffsetFromMatrix($elem);
+	$elem.css({ 'transform': 'translate(' + off.left + 'px, ' + off.top + 'px) rotate('+deg+'deg)' });
 }
 
 function getBbox(elem)
@@ -74,7 +78,6 @@ function addNode(node)
 	var last_angle=0;
 	var last_rotation=0;
 	var correction=null;
-
 	$header.on("mousedown touchstart", function(e)
 	{
 		header_rotating=true;
@@ -94,7 +97,6 @@ function addNode(node)
 		var pagey=e.pageY ? e.pageY : e.originalEvent.touches[0].pageY
 		if(header_rotating)
 		{
-			$e.draggableTouch("disable");
 			last_rotation=last_angle-angle($node_to_rotate, pagex, pagey) + correction;
 			rotate($node_to_rotate, last_angle-last_rotation);
 			last_angle=last_angle-last_rotation;
@@ -102,7 +104,6 @@ function addNode(node)
 	}).on("mouseup touchend", function(e)
 	{
 		header_rotating=false;
-		$e.draggableTouch({cursor: "move", stack: ".node"});
 	});
 	var a=0;
 	var $e=$("<span class='node'>" + node.text + "</span>");
@@ -118,12 +119,13 @@ function addNode(node)
 		// Assign z-index of maximum + 1 to make this the topmost node.
 		$(this).css("zIndex", maxw+1);
 	});
-	$e.draggableTouch({cursor: "move", stack: ".node"});
 	$close.on("click touchstart", function()
 	{
 		$close.parent().css("visibility", "hidden");
 	});
 	$(".front").append($e);
+	$e.panzoom();
+	$(document.body).on('mousewheel.focal', function(e) {e.preventDefault();});
 }
 
 $(function() {
