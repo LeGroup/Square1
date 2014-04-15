@@ -6,26 +6,46 @@
 		
 		$('#text').height(WindowHeight - 100).val(getSave()).blur(Save).keydown(KeyDown);
 		$('#send').mousedown(function(e) { SendSelectedText(); e.preventDefault();  });
+		window.onkeydown=function(e)
+		{
+			if(e.keyCode == 13)
+			{
+				SendSelectedText();
+				return false;
+			} 
+		}
 		$('body').mouseup(textSelection);
 	});
-	
+
+	function isValidEquation(input)
+	{
+		return /^(\d|\(|\)|\+|-|\*| |\/|Math.sqrt|Math.floor)+$/.test(input);
+	}
+
+	function calc(input)
+	{
+		if(isValidEquation(input))
+		{
+			try {
+				return input + " = " + eval(input);
+			} catch(e) {
+				return input;
+			}
+		}
+		return input;
+	}
+
 	function SendSelectedText() {
-		var ta = document.getElementById('text');
-		var string = ta.value.substring(ta.selectionStart, ta.selectionEnd);
+		var $ta = $("#text");
 		
-		if(string.length > 0)
-			Send(string);
-		else
-			message('Please highlight the text you want to send');
+		Send(calc($ta.val()));
+		$('#text').val("");
 	}
 	
 	function Send(text) {
 		$.post('send.php', { text:text, room: Room }, function(response) {
 				console.log('PHP: ' + response);
-				if(response == '1') 	
-					message('Sending text succeeded!');
-				else
-					message('Sending text failed.');
+				if(response != '1') message('Sending text failed.');
 			var div = $('<div>').html(text);
 			div.addClass('list-node');
 			$('body').append(div);
