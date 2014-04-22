@@ -59,17 +59,30 @@
 				margin-right: auto;
 			}
 			.node {
-				margin: 10px;
-				padding: 30px;
+				padding: 0;
 				display: inline-block;
-				white-space: pre-wrap;
-				box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
-				background-color: white;
-				border: 1px solid #093;
-				max-width: 200px;
+				width: 290px;
 				content: "↺";
 				z-index: 11;
 				-webkit-animation-fill-mode: forwards;
+				text-align: center;
+			}
+			.node .flipper {
+			}
+			.node .flipper > .front, .back {
+				position: relative;
+				padding: 40px;
+			}
+			.node .front {
+				box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+				background-color: white;
+				border: 1px solid #093;
+			}
+			.node .back {
+				text-align: center;
+				box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+				background-color: white;
+				border: 1px solid #093;
 			}
 			.rotate {
 				font-size: 16pt;
@@ -87,6 +100,19 @@
 				top: 0;
 				left: 4px;
 			}
+			.color {
+				display: inline-block;
+				width: 30px;
+				height: 30px;
+				margin-right: 8px;
+				border-radius: 6px;
+				border: 1px solid lightgrey;
+			}
+			.color1 { background-color: white; }
+			.color2 { background-color: #FAA; }
+			.color3 { background-color: #AAF; }
+			.color4 { background-color: #AFA; }
+			.color5 { background-color: #FFA; }
 		</style>
 
 		<style>
@@ -98,7 +124,7 @@
 			.flip-container { -webkit-perspective: 1000; -webkit-transform-style: preserve-3d; }
 			.flipped .flipper { -webkit-transform: rotateY(180deg); z-index: 1000; }
 			.flip-container .front { rotateY(180deg); }
-			.flip-container, .front, .back {width: 100%; height: 800px;}
+			body > .flip-container, #container > .flipper > .front, #container > .flipper > .back {width: 100%; height: 800px;}
 			.flipper { -webkit-transition: 0.6s; -webkit-transform-style: preserve-3d; position: relative;}
 			.front, .back { -webkit-backface-visibility: hidden; position: absolute; top: 0; left: 0; }
 			.front { z-index: 2; }
