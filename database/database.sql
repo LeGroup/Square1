@@ -31,3 +31,8 @@ CREATE TABLE IF NOT EXISTS `nodes` (
   `room` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
+
+ALTER TABLE `nodes` DROP COLUMN `position`;
+ALTER TABLE `nodes` ADD COLUMN `xPosition` INTEGER;
+ALTER TABLE `nodes` ADD COLUMN `yPosition` INTEGER;
+ALTER TABLE `nodes` ADD COLUMN `color` VARCHAR(10);

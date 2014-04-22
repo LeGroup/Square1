@@ -1,5 +1,27 @@
 (function() {
 
+/* Copied from http://stackoverflow.com/questions/6177454/can-i-force-jquery-cssbackgroundcolor-returns-on-hexadecimal-format
+ * to make $.css("backgroundColor") return color in hex instead of rgb(x,x,x). */
+$.cssHooks.backgroundColor = {
+    get: function(elem) {
+        if (elem.currentStyle)
+            var bg = elem.currentStyle["backgroundColor"];
+        else if (window.getComputedStyle)
+            var bg = document.defaultView.getComputedStyle(elem,
+                null).getPropertyValue("background-color");
+        if (bg.search("rgb") == -1)
+            return bg;
+        else {
+            bg = bg.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+            function hex(x) {
+                return ("0" + parseInt(x).toString(16)).slice(-2);
+            }
+            return "#" + hex(bg[1]) + hex(bg[2]) + hex(bg[3]);
+        }
+    }
+}
+
+
 "use strict";
 
 var maxID=0;
@@ -13,6 +35,29 @@ function getNodes(max) {
 			addNode(nodes[node]);
 		}
 	});
+}
+
+function updatePosition($node)
+{
+	var pos = getPositionFromTransform($node);
+	$.post('setposition.php', { xPosition: pos.x, yPosition: pos.y, id: $node.data("id") });
+}
+
+function removeNode($node)
+{
+	$.post('removenode.php', { id: $node.data("id") });
+	$node.remove();
+}
+function updateColor($node, color)
+{
+	$.post('setcolor.php', { color: color, id: $node.data("id") });
+}
+
+function getPositionFromTransform($elem) {
+	var matrix=$elem.css('transform').split(",");
+	var x = matrix[4].slice(1);
+	var y = matrix[5].slice(1, -1);
+	return {x: x, y: y};
 }
 
 function flip($node, e)
@@ -40,8 +85,10 @@ function addNode(node)
 	$colors.each(function() {
 		$(this).on("mousedown touchstart", function(e)
 		{
-			$nodeFront.css({backgroundColor: $(e.target).css("background-color")});
-			$nodeBack.css({backgroundColor: $(e.target).css("background-color")});
+			var color = $(e.target).css("background-color");
+			$nodeFront.css({backgroundColor: color});
+			$nodeBack.css({backgroundColor: color});
+			updateColor($node, color);
 		});
 	});
 
@@ -59,6 +106,7 @@ function addNode(node)
 	$flipButton.on("mousedown touchstart", function(e) { flip($node, e) } );
 	$flipButton_back.on("mousedown touchstart", function(e) { flip($node, e) } );
 
+	$node.data("id", node.id);
 	$node.on("mousedown touchstart", function()
 	{
 		$(".node").find(".front .rotate").hide();
@@ -70,6 +118,9 @@ function addNode(node)
 		);
 		// Assign z-index of maximum + 1 to make this the topmost node.
 		$(this).css("zIndex", maxw+1);
+	}).on("mouseup touchend", function()
+	{
+		updatePosition($node);
 	});
 	$(document.body).on("mousedown touchstart", function(e)
 	{
@@ -77,12 +128,23 @@ function addNode(node)
 	});
 	$close.on("click touchstart", function()
 	{
-		$close.parent().parent().parent().remove();
+		removeNode($node);
 	});
 
 	$("body > #container > .flipper > .front").append($node);
 	$nodeBack.css({width: $nodeFront.width(), height: $nodeFront.height()});
 	$node.panzoom();
+	if(!(node.xPosition && node.yPosition)) {
+		// Bitshift (>> 1) divides by 2 and floors the remainder
+		node.xPosition = ($(document.body).width() >> 1) - ($node.width() >> 1);
+		node.yPosition = ($(document.body).height() >> 1) - ($node.height() >> 1);
+	}
+	console.log(node);
+	if(node.color) {
+		$nodeFront.css({backgroundColor: node.color});
+		$nodeBack.css({backgroundColor: node.color});
+	}
+	$node.css({webkitTransform: "translate(" + node.xPosition + "px, " + node.yPosition + "px)" });
 	$(document.body).on('mousewheel.focal', function(e) {e.preventDefault();});
 }
 
