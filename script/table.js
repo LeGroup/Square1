@@ -59,6 +59,11 @@ function getPositionFromTransform($elem) {
 	var y = matrix[5].slice(1, -1);
 	return {x: x, y: y};
 }
+function saveCanvas()
+{
+	var html=$("#container .front").clone().html();
+	$.post('save.php', { html: html });
+}
 
 function flip($node, e)
 {
@@ -69,8 +74,13 @@ function flip($node, e)
 function addNode(node)
 {
 	$('#no-found').remove();
-	var $flipButton=$("<header class='rotate'>↻</header>");
-	var $flipButton_back=$("<header class='rotate'>↻</header>");
+	//var $flipButton=$("<header class='rotate'>⚙</header>");
+	var $flipButton=$("<img>", {
+		width: "18px",
+		src: "http://upload.wikimedia.org/wikipedia/commons/5/5a/Gear_shape_black_09.svg",
+		class: "rotate"
+	});
+	var $flipButton_back=$flipButton.clone();
 	var $close=$("<header class='close'>✖</header>");
 	var $node=$("<span>",  { class: "node flip-container" });
 	var $flipper = $("<div>", { class: "flipper" });
@@ -133,7 +143,7 @@ function addNode(node)
 
 	$("body > #container > .flipper > .front").append($node);
 	$nodeBack.css({width: $nodeFront.width(), height: $nodeFront.height()});
-	$node.panzoom();
+	$node.panzoom({cursor: "default"});
 	if(!(node.xPosition && node.yPosition)) {
 		// Bitshift (>> 1) divides by 2 and floors the remainder
 		node.xPosition = ($(document.body).width() >> 1) - ($node.width() >> 1);
@@ -152,6 +162,14 @@ $(function() {
 	$(".node").remove();
 	getNodes(maxID);
 	setInterval(function() { getNodes(maxID); }, 5000 );
+	$("#save").click(function()
+	{
+		saveCanvas();
+		$("#flash").show().animate({backgroundColor: "rgba(255, 255, 255, 0.0)"}, 450, function()
+		{
+			$("#flash").hide().css({backgroundColor: "rgba(255, 255, 255, 1.0)"});
+		});
+	});
 });
 
 })();

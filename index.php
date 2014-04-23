@@ -1,6 +1,6 @@
 <?php
-	if(!empty($_GET['m']) && $_GET['m'] == 'Write') { require_once('write.php'); die(); }
-	if(!empty($_GET['m']) && $_GET['m'] == 'Read') { require_once('center.php'); die(); }
+	if(!empty($_GET['m']) && $_GET['m'] == 'Writing tool') { require_once('write.php'); die(); }
+	if(!empty($_GET['m']) && $_GET['m'] == 'Canvas') { require_once('center.php'); die(); }
 ?><!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -11,10 +11,10 @@
 	
 	<?php if(!isset($_GET['room'])) : ?>
 		<h1>Square1</h1>
-		<p>Enter the name of the room you want to join. Not case sensitive.</p>
+		<p>Enter the name of the project you want to join.</p>
 		<form action="index.php" method="get">
 		<p><input type="text" name="room" maxlength="30"></p>
-		<p><input type="submit" value="Join room"></p>
+		<p><input type="submit" value="Join project"></p>
 		</form>
 	<?php else : ?>
 		<?php
@@ -23,12 +23,12 @@
 		if(empty($id)) { die('<p class="error">Error: no room name given</p>'); }
 		
 		?>
-		<h2><?php echo $_GET['room']; ?></h2>
+		<h2>Project: <?php echo $_GET['room']; ?></h2>
 		<p>
 			<form action="">	
 				<input type="hidden" name="room" value="<?php echo $id; ?>">
-				<input type="submit" name="m" value="Write">
-				<input type="submit" name="m" value="Read">
+				<input type="submit" name="m" value="Writing tool">
+				<input type="submit" name="m" value="Canvas">
 			</form>
 		</p>
 		

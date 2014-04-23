@@ -16,6 +16,7 @@
 		<script src="script/table.js"></script>
 		<script src="script/panzoom.js"></script>
 		<script src="script/pointertouch.js"></script>
+		<script src="script/jquery.animate-colors-min.js"></script>
 
 		<style>
 			html,body {
@@ -62,10 +63,12 @@
 				padding: 0;
 				display: inline-block;
 				width: 290px;
-				content: "↺";
 				z-index: 11;
 				-webkit-animation-fill-mode: forwards;
 				text-align: center;
+			}
+			.node:hover {
+				cursor: move !important;
 			}
 			.node .flipper {
 			}
@@ -89,7 +92,7 @@
 				/*display: none;*/
 				position: absolute;
 				/*top: -20px;*/
-				top: 0;
+				bottom: 4px;
 				right: 4px;
 			}
 			.close {
@@ -98,7 +101,7 @@
 				position: absolute;
 				/*top: -20px;*/
 				top: 0;
-				left: 4px;
+				right: 4px;
 			}
 			.color {
 				display: inline-block;
@@ -113,6 +116,15 @@
 			.color3 { background-color: #AAF; }
 			.color4 { background-color: #AFA; }
 			.color5 { background-color: #FFA; }
+			#flash {
+				width: 100%; height: 100%;
+				display: none;
+				position: absolute;
+				top: 0;
+				left: 0;
+				background-color: rgba(255,255,255,1.0);
+				z-index: 999;
+			}
 		</style>
 
 		<style>
@@ -120,7 +132,7 @@
 			body {width: 100%; height: 100%; overflow: hidden;}
 			iframe { width: 100%; height: 100%; overflow: hidden;}
 			#swap { position: fixed; top: 0; right: 0; height: 60px; width: 80px; z-index: 9999; max-width: 80px; max-height: 60px;}
-			#home { position: fixed; top: 0; right: 80px; height: 60px; width: 80px; z-index: 9999; max-width: 80px; max-height: 60px;}
+			.leftButton { position: fixed; top: 0; right: 80px; height: 60px; width: 80px; z-index: 9999; max-width: 80px; max-height: 60px;}
 			.flip-container { -webkit-perspective: 1000; -webkit-transform-style: preserve-3d; }
 			.flipped .flipper { -webkit-transform: rotateY(180deg); z-index: 1000; }
 			.flip-container .front { rotateY(180deg); }
@@ -131,8 +143,9 @@
 			}
 			.flipper { -webkit-transition: 0.6s; -webkit-transform-style: preserve-3d; position: relative;}
 			.front, .back { -webkit-backface-visibility: hidden; position: absolute; top: 0; left: 0; }
-			.front { z-index: 2; }
+			.front { z-index: 2; overflow: visible !important;}
 			.back { -webkit-transform: rotateY(-180deg); }
+			.camera { background-color: white; z-index: 999; position: fixed; border: 1px solid black; border-radius: 4px; bottom: 0px; width: 200px; text-align: center; left: 50%; margin-left: -100px; }
 		</style>
 		<script type="text/javascript">var Room="<?php echo $_GET['room']; ?>";</script>
 		<script>
@@ -160,21 +173,22 @@
 				{
 					$("#frame").attr("src", "search.html");
 				});
+				$(window).on("resize", function()
+				{
+					$(".camera").css({top: $(window).height()-$(".camera").outerHeight()>>1 + "px"});
+				});
+				$(".camera").css({top: $(window).height()-$(".camera").outerHeight()>>1 + "px"});
 			});
 		</script>
 	</head>
 	<body>
-		<button id="home">Haku</button>
+		<div id="flash"></div>
+		<!--<button id="save" class="leftButton">Save</button>-->
 		<button id="swap">↺</button>
 		<div id="container" class="flip-container">
 			<div class="flipper">
 				<div class="back" id="search">
 					<div style="height: 95%; overflow: hidden; text-align: center;">
-<!--
-						<div>
-							<input type="text" id="query"></input><br/>
-							<button id="google">Google</button><button id="wikipedia">Wikipedia</button>
-						</div>-->
 						<iframe id="frame" src="search.html" width="100%" height="100%"></iframe>
 					</div>
 				</div>
@@ -189,6 +203,11 @@
 						$url = http_build_query($get);
 					?>
 					<div id="canvas"><div id="no-found">Empty room<br>Why don't try to <a href="?<?php echo $url; ?>">write a note</a>?</div></div>
+					<img height="50" id="save" src="http://upload.wikimedia.org/wikipedia/commons/a/a1/High-contrast-emblem-photos.svg" class="camera"></img>
+<!--
+					<div id="url">
+						<a href="http://legroup.aalto.fi/square1/square1_test/show.php?id=12">http://legroup.aalto.fi/square1/square1_test/show.php?id=12</a>
+					</div>
 				</div>
 			</div>
 		</div>
