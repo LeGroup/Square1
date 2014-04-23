@@ -124,7 +124,11 @@
 			.flip-container { -webkit-perspective: 1000; -webkit-transform-style: preserve-3d; }
 			.flipped .flipper { -webkit-transform: rotateY(180deg); z-index: 1000; }
 			.flip-container .front { rotateY(180deg); }
-			body > .flip-container, #container > .flipper > .front, #container > .flipper > .back {width: 100%; height: 800px;}
+			body > .flip-container, #container > .flipper > .front, #container > .flipper > .back {
+				width: 100%;
+				height: 800px;
+				padding: 0;
+			}
 			.flipper { -webkit-transition: 0.6s; -webkit-transform-style: preserve-3d; position: relative;}
 			.front, .back { -webkit-backface-visibility: hidden; position: absolute; top: 0; left: 0; }
 			.front { z-index: 2; }
