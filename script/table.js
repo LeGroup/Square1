@@ -62,7 +62,7 @@ function getPositionFromTransform($elem) {
 function saveCanvas()
 {
 	var html=$("#container .front").clone().html();
-	$.post('save.php', { html: html });
+	$.post('save.php', { html: html, room: Room });
 }
 
 function flip($node, e)

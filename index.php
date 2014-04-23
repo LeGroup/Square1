@@ -1,6 +1,7 @@
 <?php
 	if(!empty($_GET['m']) && $_GET['m'] == 'Writing tool') { require_once('write.php'); die(); }
 	if(!empty($_GET['m']) && $_GET['m'] == 'Canvas') { require_once('center.php'); die(); }
+	if(!empty($_GET['m']) && $_GET['m'] == 'Snapshots') { require_once('snapshots.php'); die(); }
 ?><!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -29,6 +30,7 @@
 				<input type="hidden" name="room" value="<?php echo $id; ?>">
 				<input type="submit" name="m" value="Writing tool">
 				<input type="submit" name="m" value="Canvas">
+				<input type="submit" name="m" value="Snapshots">
 			</form>
 		</p>
 		

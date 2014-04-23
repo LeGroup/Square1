@@ -94,7 +94,9 @@
 				/*top: -20px;*/
 				bottom: 4px;
 				right: 4px;
+				display: none;
 			}
+			.back .rotate { display: block; }
 			.close {
 				font-size: 16pt;
 				/*display: none;*/
