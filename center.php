@@ -185,7 +185,7 @@
 	</head>
 	<body>
 		<div id="flash"></div>
-		<!--<button id="save" class="leftButton">Save</button>-->
+		<button id="home" class="leftButton">Home</button>
 		<button id="swap">↺</button>
 		<div id="container" class="flip-container">
 			<div class="flipper">
