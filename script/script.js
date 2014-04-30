@@ -37,8 +37,8 @@
 
 	function SendSelectedText() {
 		var $ta = $("#text");
-		
-		Send(calc($ta.val()));
+		var text=$.trim($ta.val());
+		if(text.length != 0) Send(calc($ta.val()));
 		$('#text').val("");
 	}
 	
