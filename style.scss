@@ -91,26 +91,25 @@ body {
 	width: 290px;
 	z-index: 11;
 	text-align: center;
-}
-.node:hover {
-	cursor: move !important;
-}
-.node .flipper {
+
+	.front {
+		box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+		background-color: white;
+		border: 1px solid #093;
+	}
+	.back {
+		text-align: center;
+		box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+		background-color: white;
+		border: 1px solid #093;
+	}
+	&:hover {
+		cursor: move !important;
+	}
 }
 .node .flipper > .front, .back {
 	position: relative;
 	padding: 40px;
-}
-.node .front {
-	box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
-	background-color: white;
-	border: 1px solid #093;
-}
-.node .back {
-	text-align: center;
-	box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
-	background-color: white;
-	border: 1px solid #093;
 }
 .rotate {
 	font-size: 16pt;
