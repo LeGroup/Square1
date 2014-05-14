@@ -226,6 +226,7 @@ body > .flip-container, #container > .flipper > .front, #container > .flipper > 
 svg { font-family: 'Noto Sans', sans-serif;}
 
 #send {
+	width: 93%; // Optimal for nexus 7 screen
 	height: 50px;
 	background-image: url(images/move-1.png);
 	background-position: center center;
