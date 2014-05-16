@@ -105,8 +105,20 @@ function addNode(node)
 	$flipper.append($nodeBack);
 	$flipper.append($nodeFront);
 	$node.append($flipper);
+	var $image;
 
-	$nodeFront.text(node.text);
+	if(node.text.length > 0)
+	{
+		$nodeFront.text(node.text);
+	}
+	else
+	{
+		$image=$("<img>", {
+			src: node.data
+		});
+		$image.width($nodeFront.width());
+		$nodeFront.append($image);
+	}
 	$nodeFront.append($flipButton);
 
 	$nodeBack.append($flipButton_back);
@@ -142,14 +154,20 @@ function addNode(node)
 	});
 
 	$("body > #container > .flipper > .front").append($node);
-	$nodeBack.css({width: $nodeFront.width(), height: $nodeFront.height()});
+	if($image)
+	{
+		$nodeFront.css({padding: 0});
+		$nodeBack.css({padding: 0});
+		$image.width($node.width());
+	}
+	$nodeBack.css({width: $nodeFront.outerWidth(), height: $nodeFront.outerHeight()});
 	$node.panzoom({cursor: "default"});
 	if(!(node.xPosition && node.yPosition)) {
 		// Bitshift (>> 1) divides by 2 and floors the remainder
 		node.xPosition = ($(document.body).width() >> 1) - ($node.width() >> 1);
 		node.yPosition = ($(document.body).height() >> 1) - ($node.height() >> 1);
 	}
-	console.log(node);
+	//console.log(node);
 	if(node.color) {
 		$nodeFront.css({backgroundColor: node.color});
 		$nodeBack.css({backgroundColor: node.color});

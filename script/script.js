@@ -43,7 +43,7 @@
 	}
 	
 	function Send(text) {
-		$.post('send.php', { text:text, room: Room }, function(response) {
+		$.post('send.php', { text:text, room: Room, data: null }, function(response) {
 				console.log('PHP: ' + response);
 				if(response != '1') message('Sending text failed.');
 			var div = $('<div>').html(text);

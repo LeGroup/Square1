@@ -1,5 +1,6 @@
 <?php
 	if(!empty($_GET['m']) && $_GET['m'] == 'Writing Tool') { require_once('write.php'); die(); }
+	if(!empty($_GET['m']) && $_GET['m'] == 'Drawing Tool') { require_once('draw.php'); die(); }
 	if(!empty($_GET['m']) && $_GET['m'] == 'Canvas') { require_once('center.php'); die(); }
 	if(!empty($_GET['m']) && $_GET['m'] == 'Snapshots') { require_once('snapshots.php'); die(); }
 ?><!DOCTYPE html>
